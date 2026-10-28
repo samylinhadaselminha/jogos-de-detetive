@@ -1,0 +1,973 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O Mistério da Mansão Blackwood</title>
+
+<style>
+:root {
+    --fundo: #10111b;
+    --painel: #1b1d2b;
+    --borda: #38394e;
+    --destaque: #d7b56d;
+    --texto: #f4f0e8;
+    --suave: #b9bacb;
+    --vermelho: #e46b76;
+    --verde: #7cdaa8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    color: var(--texto);
+    background:
+        radial-gradient(ellipse at top, #34243c 0%, transparent 60%),
+        var(--fundo);
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+}
+
+button {
+    font: inherit;
+    cursor: pointer;
+    border: 1px solid #55536b;
+    border-radius: 10px;
+    padding: 11px 14px;
+    color: var(--texto);
+    background: #292b3e;
+    transition: .2s;
+}
+
+button:hover {
+    border-color: var(--destaque);
+    background: #3a3545;
+    transform: translateY(-1px);
+}
+
+button:focus-visible {
+    outline: 3px solid var(--destaque);
+    outline-offset: 3px;
+}
+
+button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+header {
+    text-align: center;
+    padding: 28px 15px 22px;
+    border-bottom: 1px solid #383044;
+}
+
+header .selo {
+    color: var(--destaque);
+    letter-spacing: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(30px, 6vw, 52px);
+    margin: 12px 0;
+    color: #f2d79d;
+}
+
+header p {
+    color: var(--suave);
+    max-width: 650px;
+    margin: auto;
+    line-height: 1.6;
+}
+
+main {
+    max-width: 1150px;
+    margin: auto;
+    padding: 20px;
+}
+
+.barra {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.status {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pilula {
+    background: #252637;
+    border: 1px solid var(--borda);
+    border-radius: 30px;
+    padding: 9px 13px;
+    font-size: 13px;
+}
+
+.grade {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(260px, 1fr);
+    gap: 16px;
+    align-items: start;
+}
+
+.cartao {
+    background: #1b1d2bf2;
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 12px 35px #00000020;
+}
+
+.cartao h2, .cartao h3 {
+    margin-top: 0;
+}
+
+.subtitulo {
+    color: var(--destaque);
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.cena {
+    min-height: 180px;
+    border-radius: 12px;
+    border: 1px solid #55506b;
+    background:
+        linear-gradient(0deg, #11111bdc, #11111b22),
+        radial-gradient(ellipse at 50% 0%, #a58a6833, transparent 70%),
+        linear-gradient(135deg, #392d40, #171b2c 70%);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    margin: 14px 0;
+}
+
+.cena .emoji {
+    font-size: 52px;
+    margin-bottom: 12px;
+}
+
+.cena h2 {
+    margin-bottom: 8px;
+    font-family: Georgia, serif;
+}
+
+.cena p {
+    margin-bottom: 0;
+    line-height: 1.6;
+    color: #ded9e8;
+}
+
+.texto {
+    line-height: 1.7;
+    color: #dedce8;
+}
+
+.botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.botoes button {
+    flex: 1 1 130px;
+    text-align: left;
+}
+
+.destaque {
+    background: #4a3b29;
+    border-color: var(--destaque);
+}
+
+.primario {
+    background: var(--destaque);
+    color: #20180c;
+    border-color: var(--destaque);
+    font-weight: bold;
+}
+
+.primario:hover {
+    background: #f3d596;
+    color: #20180c;
+}
+
+.perigo {
+    border-color: #8f4658;
+    color: #ffb7c0;
+}
+
+.suspeito {
+    padding: 12px;
+    border-radius: 12px;
+    background: #252637;
+    border: 1px solid var(--borda);
+    margin: 10px 0;
+}
+
+.suspeito strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.suspeito small {
+    color: var(--suave);
+    line-height: 1.5;
+}
+
+.lista-pistas {
+    padding-left: 22px;
+    line-height: 1.7;
+}
+
+.lista-pistas li {
+    padding: 5px 0;
+    color: #dedce8;
+}
+
+.vazio {
+    color: var(--suave);
+    font-style: italic;
+    line-height: 1.6;
+}
+
+.caixa-dialogo {
+    border-left: 3px solid var(--destaque);
+    padding: 10px 14px;
+    margin: 15px 0;
+    background: #292536;
+    border-radius: 0 10px 10px 0;
+    line-height: 1.7;
+}
+
+.tag {
+    color: var(--verde);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    color: var(--suave);
+    padding: 24px;
+    line-height: 1.8;
+    border-top: 1px solid #383044;
+}
+
+[hidden] { display: none !important; }
+
+@media (max-width: 760px) {
+    .grade {
+        grid-template-columns: 1fr;
+    }
+
+    main { padding: 12px; }
+    .cartao { padding: 14px; }
+    .barra { align-items: flex-start; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="selo">ARQUIVO CONFIDENCIAL Nº 001</div>
+    <h1>🕯️ A Mansão Blackwood</h1>
+    <p>
+        Uma noite. Um milionário morto. Seis suspeitos.
+        Uma verdade que alguém está tentando esconder.
+    </p>
+</header>
+
+<main>
+    <div class="barra">
+        <div class="status">
+            <span class="pilula">🔎 Pistas: <b id="contador">0/6</b></span>
+            <span class="pilula">💬 Interrogados: <b id="interrogados">0/6</b></span>
+        </div>
+        <button onclick="mostrarRegras()">📜 Como jogar</button>
+    </div>
+
+    <section id="inicio" class="cartao">
+        <div class="cena">
+            <div class="emoji">🏚️🌧️🕯️</div>
+            <h2>O último segredo de Augusto</h2>
+            <p>
+                Às 22h, Augusto Blackwood, um empresário milionário,
+                foi encontrado morto em seu escritório. A tempestade
+                isolou a mansão, e ninguém conseguiu sair.
+            </p>
+        </div>
+
+        <p class="texto">
+            A polícia acredita que o responsável está entre as seis
+            pessoas que estavam na propriedade naquela noite.
+            Todos tinham motivos para esconder alguma coisa.
+        </p>
+
+        <p class="texto">
+            Você é o detetive responsável pelo caso. Explore os cômodos,
+            procure evidências, interrogue os suspeitos e descubra
+            quem está mentindo.
+        </p>
+
+        <button class="primario" onclick="comecar()">🕵️ Iniciar investigação</button>
+    </section>
+
+    <section id="jogo" hidden>
+        <div class="grade">
+            <div>
+                <section class="cartao">
+                    <div class="subtitulo">Local da investigação</div>
+
+                    <div class="cena">
+                        <div class="emoji" id="emojiLocal">🏛️</div>
+                        <h2 id="nomeLocal">Hall de entrada</h2>
+                        <p id="descricaoLocal"></p>
+                    </div>
+
+                    <h3>📍 Escolha onde investigar</h3>
+                    <div class="botoes" id="botoesLocais"></div>
+
+                    <div id="resultadoLocal" class="caixa-dialogo" hidden></div>
+                </section>
+
+                <section class="cartao">
+                    <div class="subtitulo">Sala de interrogatório</div>
+                    <h2>💬 Converse com os suspeitos</h2>
+
+                    <p class="texto">
+                        Faça perguntas, compare as respostas e preste
+                        atenção aos detalhes.
+                    </p>
+
+                    <div id="listaSuspeitos"></div>
+                    <div id="dialogo" hidden></div>
+                </section>
+
+                <section class="cartao">
+                    <div class="subtitulo">Conclusão do caso</div>
+                    <h2>⚖️ Faça sua acusação</h2>
+
+                    <p class="texto">
+                        Quando estiver pronto, selecione quem você
+                        acredita ser o culpado e explique sua conclusão
+                        escolhendo uma das evidências encontradas.
+                    </p>
+
+                    <button class="primario" onclick="abrirAcusacao()">
+                        🔐 Revelar o culpado
+                    </button>
+
+                    <div id="painelAcusacao" hidden>
+                        <h3>Quem cometeu o crime?</h3>
+                        <div id="opcoesAcusacao" class="botoes"></div>
+
+                        <h3>Qual pista sustenta sua acusação?</h3>
+                        <select id="pistaAcusacao" style="
+                            width:100%; padding:12px; border-radius:10px;
+                            background:#252637; color:white; border:1px solid #55536b;
+                        ">
+                        </select>
+
+                        <p>
+                            <button class="primario" onclick="julgar()">
+                                Confirmar acusação
+                            </button>
+                        </p>
+
+                        <div id="resultadoFinal" class="caixa-dialogo" hidden></div>
+                    </div>
+                </section>
+            </div>
+
+            <aside>
+                <section class="cartao">
+                    <div class="subtitulo">Seu bloco de notas</div>
+                    <h2>📓 Evidências</h2>
+                    <p class="texto">As pistas descobertas aparecem aqui.</p>
+                    <ol id="caderno" class="lista-pistas">
+                        <li class="vazio">Você ainda não encontrou pistas.</li>
+                    </ol>
+                </section>
+
+                <section class="cartao">
+                    <div class="subtitulo">Pessoas envolvidas</div>
+                    <h2>🕵️ Os suspeitos</h2>
+                    <div class="suspeito">
+                        <strong>👒 Helena — A esposa</strong>
+                        <small>Um casamento cheio de discussões e segredos.</small>
+                    </div>
+                    <div class="suspeito">
+                        <strong>🧹 Marta — A empregada</strong>
+                        <small>Conhece todos os cômodos da mansão.</small>
+                    </div>
+                    <div class="suspeito">
+                        <strong>🍲 Roberto — O cozinheiro</strong>
+                        <small>Preparou o jantar daquela noite.</small>
+                    </div>
+                    <div class="suspeito">
+                        <strong>🗝️ Elias — O mordomo</strong>
+                        <small>Controla as chaves e organiza a casa.</small>
+                    </div>
+                    <div class="suspeito">
+                        <strong>🏘️ Victor — O vizinho</strong>
+                        <small>Tinha uma antiga disputa com Augusto.</small>
+                    </div>
+                    <div class="suspeito">
+                        <strong>🌿 João — O jardineiro</strong>
+                        <small>Conhece os caminhos ao redor da propriedade.</small>
+                    </div>
+                </section>
+
+                <section class="cartao">
+                    <div class="subtitulo">Dica do detetive</div>
+                    <p class="texto">
+                        Uma pessoa pode ter um motivo para mentir sem
+                        necessariamente ser a culpada. Procure evidências
+                        que confirmem horários e oportunidades.
+                    </p>
+                    <button onclick="mostrarDica()">💡 Pedir uma dica</button>
+                    <p id="dica" class="texto" hidden></p>
+                </section>
+            </aside>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <b>O Mistério da Mansão Blackwood</b><br>
+    Jogo fictício de investigação<br>
+    Desenvolvido por Samyla · 2º ano EMTI | Programação Web
+</footer>
+
+<script>
+const locais = {
+    hall: {
+        nome: "Hall de entrada",
+        emoji: "🚪",
+        descricao: "O relógio antigo marca 21h20. Há marcas de lama perto da porta dos fundos.",
+        pista: {
+            id: "relogio",
+            titulo: "O relógio parado",
+            texto: "O relógio do hall parou às 21h20. Isso ajuda a questionar os horários informados pelos suspeitos."
+        }
+    },
+    escritorio: {
+        nome: "Escritório de Augusto",
+        emoji: "🕯️",
+        descricao: "Papéis estão espalhados sobre a mesa. Uma gaveta foi deixada aberta e há um envelope rasgado.",
+        pista: {
+            id: "carta",
+            titulo: "A carta rasgada",
+            texto: "A carta menciona uma auditoria financeira marcada para a manhã seguinte. Alguém temia que seus registros fossem examinados."
+        }
+    },
+    cozinha: {
+        nome: "Cozinha",
+        emoji: "🍲",
+        descricao: "A cozinha está quase limpa. Uma bandeja de chá foi lavada às pressas.",
+        pista: {
+            id: "bandeja",
+            titulo: "A bandeja de chá",
+            texto: "Roberto afirma que preparou a bandeja, mas diz que ela saiu da cozinha antes das 21h15. Ele não consegue confirmar quem a levou ao escritório."
+        }
+    },
+    biblioteca: {
+        nome: "Biblioteca",
+        emoji: "📚",
+        descricao: "Há um livro fora do lugar e marcas de dedos na moldura de uma fotografia.",
+        pista: {
+            id: "livro",
+            titulo: "O livro deslocado",
+            texto: "Atrás do livro há uma anotação: '21h30 — falar sobre as contas'. A letra parece ter sido escrita às pressas."
+        }
+    },
+    jardim: {
+        nome: "Jardim dos fundos",
+        emoji: "🌧️",
+        descricao: "A chuva deixou o caminho enlameado. Pegadas vão até a porta de serviço.",
+        pista: {
+            id: "pegadas",
+            titulo: "Pegadas na lama",
+            texto: "As pegadas chegam à porta de serviço, mas não permitem identificar uma pessoa com certeza. A entrada poderia ser usada por qualquer funcionário."
+        }
+    },
+    corredor: {
+        nome: "Corredor dos funcionários",
+        emoji: "🗝️",
+        descricao: "Um quadro de chaves está na parede. Uma etiqueta foi arrancada de um dos ganchos.",
+        pista: {
+            id: "chaves",
+            titulo: "O registro das chaves",
+            texto: "O caderno de controle indica que a chave reserva do escritório foi retirada às 21h10. O campo de assinatura está vazio."
+        }
+    }
+};
+
+const suspeitos = [
+    {
+        id: "helena",
+        nome: "Helena",
+        papel: "Esposa",
+        emoji: "👒",
+        motivo: "Augusto planejava mudar o testamento.",
+        fala: "Eu estava na sala de música. Augusto e eu discutimos, sim, mas não entrei no escritório naquela hora.",
+        perguntas: [
+            "Qual era sua relação com Augusto?",
+            "Você sabia do testamento?",
+            "Você viu alguém no corredor?"
+        ],
+        respostas: [
+            "Nosso casamento estava difícil. Ele escondia negócios de mim.",
+            "Ouvi dizer que ele pretendia alterar documentos, mas não sei o conteúdo.",
+            "Ouvi passos perto do corredor, mas não consegui ver quem era."
+        ]
+    },
+    {
+        id: "marta",
+        nome: "Marta",
+        papel: "Empregada",
+        emoji: "🧹",
+        motivo: "Augusto ameaçou demiti-la.",
+        fala: "Eu estava arrumando o andar de cima. Ouvi uma porta fechar, mas não vi quem saiu.",
+        perguntas: [
+            "Você ouviu alguma coisa?",
+            "Quem tinha acesso ao escritório?",
+            "Você viu a bandeja de chá?"
+        ],
+        respostas: [
+            "Ouvi o relógio tocar, mas a tempestade dificultava escutar os outros sons.",
+            "Augusto, o mordomo e algumas pessoas da família tinham acesso.",
+            "Vi uma bandeja sair da cozinha, mas não consegui ver o rosto de quem a carregava."
+        ]
+    },
+    {
+        id: "roberto",
+        nome: "Roberto",
+        papel: "Cozinheiro",
+        emoji: "🍲",
+        motivo: "Augusto reclamava constantemente de seu trabalho.",
+        fala: "Preparei o jantar e o chá. Depois fiquei na cozinha, organizando tudo para o dia seguinte.",
+        perguntas: [
+            "Quem preparou o chá?",
+            "Você saiu da cozinha?",
+            "Houve alguma discussão?"
+        ],
+        respostas: [
+            "Eu preparei a bandeja, mas outra pessoa se encarregou de levá-la.",
+            "Saí por alguns instantes para buscar ingredientes no depósito.",
+            "Ouvi Augusto discutir sobre documentos, mas não sei com quem."
+        ]
+    },
+    {
+        id: "elias",
+        nome: "Elias",
+        papel: "Mordomo",
+        emoji: "🗝️",
+        motivo: "Era responsável pelas chaves e pelos registros da casa.",
+        fala: "Passei a noite organizando a sala de jantar. Não tive motivo para entrar no escritório.",
+        perguntas: [
+            "Você controlava as chaves?",
+            "Onde estava às 21h30?",
+            "Você levou o chá ao escritório?"
+        ],
+        respostas: [
+            "Eu mantinha o registro das chaves, mas qualquer retirada deveria ser anotada.",
+            "Estava no corredor dos funcionários, verificando a organização da casa.",
+            "Não. Deixei a bandeja na cozinha e não voltei a tocá-la."
+        ]
+    },
+    {
+        id: "victor",
+        nome: "Victor",
+        papel: "Vizinho",
+        emoji: "🏘️",
+        motivo: "Tinha uma disputa antiga por um terreno com Augusto.",
+        fala: "Eu estava na varanda da minha casa. Vim à mansão naquela noite porque Augusto me convidou para conversar.",
+        perguntas: [
+            "Por que você veio à mansão?",
+            "Quando foi embora?",
+            "Você viu alguém entrar?"
+        ],
+        respostas: [
+            "Precisávamos resolver uma disputa de propriedade.",
+            "Saí antes das nove e meia. A chuva começou logo depois.",
+            "Vi uma silhueta perto da porta de serviço, mas não consegui reconhecer a pessoa."
+        ]
+    },
+    {
+        id: "joao",
+        nome: "João",
+        papel: "Jardineiro",
+        emoji: "🌿",
+        motivo: "Augusto pretendia vender parte do jardim.",
+        fala: "Eu estava guardando as ferramentas no galpão. Conheço a porta de serviço, mas não entrei na casa.",
+        perguntas: [
+            "Por que havia lama no corredor?",
+            "Você entrou na mansão?",
+            "Você viu o mordomo?"
+        ],
+        respostas: [
+            "A chuva deixou todo o caminho enlameado. Várias pessoas usam aquela entrada.",
+            "Entrei mais cedo para buscar minhas luvas, mas depois fiquei no galpão.",
+            "Vi Elias perto do corredor, mas não sei o que ele estava fazendo."
+        ]
+    }
+];
+
+let pistas = [];
+let interrogados = [];
+let localAtual = "hall";
+let suspeitoAtual = null;
+let perguntasFeitas = {};
+let acusacao = null;
+let encerrado = false;
+let dicasUsadas = 0;
+
+function comecar() {
+    document.getElementById("inicio").hidden = true;
+    document.getElementById("jogo").hidden = false;
+
+    desenharLocais();
+    desenharSuspeitos();
+    visitarLocal("hall");
+    atualizarCaderno();
+}
+
+function mostrarRegras() {
+    alert(
+        "COMO JOGAR\n\n" +
+        "1. Visite todos os cômodos.\n" +
+        "2. Clique em Investigar para procurar pistas.\n" +
+        "3. Converse com os seis suspeitos e faça perguntas.\n" +
+        "4. Compare os depoimentos com as evidências.\n" +
+        "5. Faça sua acusação quando estiver preparado.\n\n" +
+        "Dica: um motivo não prova culpa. Procure contradições!"
+    );
+}
+
+function desenharLocais() {
+    const area = document.getElementById("botoesLocais");
+    area.innerHTML = "";
+
+    for (const [id, local] of Object.entries(locais)) {
+        const btn = document.createElement("button");
+        btn.textContent = local.emoji + " " + local.nome;
+        btn.onclick = () => visitarLocal(id);
+        btn.dataset.local = id;
+        area.appendChild(btn);
+    }
+}
+
+function visitarLocal(id) {
+    localAtual = id;
+    const local = locais[id];
+
+    document.getElementById("emojiLocal").textContent = local.emoji;
+    document.getElementById("nomeLocal").textContent = local.nome;
+    document.getElementById("descricaoLocal").textContent = local.descricao;
+
+    document.querySelectorAll("[data-local]").forEach(btn => {
+        btn.classList.toggle("destaque", btn.dataset.local === id);
+    });
+
+    const resultado = document.getElementById("resultadoLocal");
+    resultado.hidden = false;
+
+    if (pistas.some(p => p.id === local.pista.id)) {
+        resultado.innerHTML = "<span class='tag'>PISTA REGISTRADA</span><br>" +
+            local.pista.texto;
+        return;
+    }
+
+    resultado.innerHTML =
+        "<b>Você encontrou algo suspeito.</b><br>" +
+        "Investigue este local para registrar a evidência.<br><br>" +
+        "<button class='primario' onclick='investigarLocal()'>🔍 Investigar</button>";
+}
+
+function investigarLocal() {
+    const local = locais[localAtual];
+
+    if (pistas.some(p => p.id === local.pista.id)) return;
+
+    pistas.push(local.pista);
+    atualizarCaderno();
+
+    const resultado = document.getElementById("resultadoLocal");
+    resultado.innerHTML =
+        "<span class='tag'>NOVA EVIDÊNCIA DESCOBERTA</span><br><b>" +
+        local.pista.titulo + "</b><br>" + local.pista.texto;
+
+    document.getElementById("contador").textContent = pistas.length + "/6";
+}
+
+function atualizarCaderno() {
+    const caderno = document.getElementById("caderno");
+    caderno.innerHTML = "";
+
+    if (pistas.length === 0) {
+        caderno.innerHTML = "<li class='vazio'>Você ainda não encontrou pistas.</li>";
+    } else {
+        pistas.forEach(p => {
+            const li = document.createElement("li");
+            li.innerHTML = "<b>" + p.titulo + "</b><br>" + p.texto;
+            caderno.appendChild(li);
+        });
+    }
+
+    document.getElementById("contador").textContent = pistas.length + "/6";
+    document.getElementById("interrogados").textContent =
+        interrogados.length + "/6";
+
+    const select = document.getElementById("pistaAcusacao");
+    if (select) {
+        const anterior = select.value;
+        select.innerHTML = "";
+
+        if (pistas.length === 0) {
+            const op = document.createElement("option");
+            op.value = "";
+            op.textContent = "Encontre pistas primeiro";
+            select.appendChild(op);
+        } else {
+            pistas.forEach(p => {
+                const op = document.createElement("option");
+                op.value = p.id;
+                op.textContent = p.titulo;
+                select.appendChild(op);
+            });
+
+            if (pistas.some(p => p.id === anterior)) {
+                select.value = anterior;
+            }
+        }
+    }
+}
+
+function desenharSuspeitos() {
+    const area = document.getElementById("listaSuspeitos");
+    area.innerHTML = "";
+
+    suspeitos.forEach(s => {
+        const div = document.createElement("div");
+        div.className = "suspeito";
+
+        const nome = document.createElement("strong");
+        nome.textContent = s.emoji + " " + s.nome + " — " + s.papel;
+
+        const motivo = document.createElement("small");
+        motivo.textContent = "Possível motivo: " + s.motivo;
+
+        const btn = document.createElement("button");
+        btn.style.marginTop = "10px";
+        btn.textContent = interrogados.includes(s.id)
+            ? "Conversar novamente"
+            : "Interrogar";
+
+        btn.onclick = () => interrogar(s.id);
+
+        div.append(nome, document.createElement("br"), motivo,
+            document.createElement("br"), btn);
+
+        area.appendChild(div);
+    });
+}
+
+function interrogar(id) {
+    suspeitoAtual = suspeitos.find(s => s.id === id);
+
+    if (!interrogados.includes(id)) {
+        interrogados.push(id);
+        atualizarCaderno();
+        desenharSuspeitos();
+    }
+
+    const area = document.getElementById("dialogo");
+    area.hidden = false;
+
+    area.innerHTML = "";
+
+    const titulo = document.createElement("h3");
+    titulo.textContent = suspeitoAtual.emoji + " Interrogando " +
+        suspeitoAtual.nome;
+
+    const fala = document.createElement("div");
+    fala.className = "caixa-dialogo";
+    fala.textContent = "“" + suspeitoAtual.fala + "”";
+
+    const texto = document.createElement("p");
+    texto.className = "texto";
+    texto.textContent = "Escolha uma pergunta:";
+
+    const botoes = document.createElement("div");
+    botoes.className = "botoes";
+
+    suspeitoAtual.perguntas.forEach((pergunta, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = pergunta;
+
+        const chave = suspeitoAtual.id + "-" + i;
+        if (perguntasFeitas[chave]) {
+            btn.textContent = "✓ " + pergunta;
+        }
+
+        btn.onclick = () => perguntar(i);
+        botoes.appendChild(btn);
+    });
+
+    area.append(titulo, fala, texto, botoes);
+
+    area.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function perguntar(indice) {
+    const s = suspeitoAtual;
+    const chave = s.id + "-" + indice;
+    perguntasFeitas[chave] = true;
+
+    const area = document.getElementById("dialogo");
+    let resposta = s.respostas[indice];
+
+    // Evidências novas permitem perceber contradições específicas.
+    if (s.id === "elias" && indice === 0 &&
+        pistas.some(p => p.id === "chaves")) {
+        resposta += " Porém, o registro mostra que a chave reserva foi retirada sem assinatura.";
+    }
+
+    if (s.id === "elias" && indice === 2 &&
+        pistas.some(p => p.id === "bandeja")) {
+        resposta += " Isso contradiz o relato de Marta sobre a bandeja saindo da cozinha.";
+    }
+
+    if (s.id === "roberto" && indice === 0 &&
+        pistas.some(p => p.id === "bandeja")) {
+        resposta += " A bandeja foi deixada pronta, mas ninguém anotou quem a retirou.";
+    }
+
+    const caixa = document.createElement("div");
+    caixa.className = "caixa-dialogo";
+    caixa.innerHTML = "<b>" + s.nome + " responde:</b><br>" + resposta;
+
+    const anterior = area.querySelector(".resposta");
+    if (anterior) anterior.remove();
+
+    caixa.classList.add("resposta");
+    area.appendChild(caixa);
+
+    // Atualiza os botões para mostrar perguntas já feitas.
+    interrogarSemReset(s.id);
+}
+
+function interrogarSemReset(id) {
+    const area = document.getElementById("dialogo");
+    const botoes = area.querySelectorAll(".botoes button");
+    const s = suspeitos.find(x => x.id === id);
+
+    botoes.forEach((btn, i) => {
+        if (perguntasFeitas[s.id + "-" + i]) {
+            btn.textContent = "✓ " + s.perguntas[i];
+        }
+    });
+}
+
+function mostrarDica() {
+    const area = document.getElementById("dica");
+    area.hidden = false;
+
+    const dicas = [
+        "Comece pelo escritório e descubra o que Augusto estava tentando esconder.",
+        "Compare o registro das chaves com os depoimentos de quem tinha acesso à casa.",
+        "Pergunte a si mesmo: quem tinha acesso ao escritório e uma oportunidade de alterar o que foi servido?",
+        "Não confunda uma disputa familiar com prova de culpa. Procure contradições concretas."
+    ];
+
+    area.textContent = dicas[Math.min(dicasUsadas, dicas.length - 1)];
+    dicasUsadas++;
+}
+
+function abrirAcusacao() {
+    document.getElementById("painelAcusacao").hidden = false;
+    document.getElementById("resultadoFinal").hidden = true;
+
+    const area = document.getElementById("opcoesAcusacao");
+    area.innerHTML = "";
+
+    suspeitos.forEach(s => {
+        const btn = document.createElement("button");
+        btn.textContent = s.emoji + " " + s.nome;
+        btn.onclick = () => {
+            acusacao = s.id;
+            area.querySelectorAll("button").forEach(b =>
+                b.classList.remove("destaque")
+            );
+            btn.classList.add("destaque");
+        };
+        area.appendChild(btn);
+    });
+
+    atualizarCaderno();
+    document.getElementById("painelAcusacao").scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+}
+
+function julgar() {
+    const resultado = document.getElementById("resultadoFinal");
+    resultado.hidden = false;
+
+    if (!acusacao) {
+        resultado.textContent = "Escolha um suspeito antes de confirmar.";
+        return;
+    }
+
+    if (pistas.length < 3) {
+        resultado.textContent =
+            "Você ainda tem poucas evidências. Investigue mais cômodos antes de tomar uma decisão!";
+        return;
+    }
+
+    const pistaEscolhida = document.getElementById("pistaAcusacao").value;
+
+    if (acusacao === "elias" && pistaEscolhida === "chaves") {
+        resultado.innerHTML =
+            "<h3>🏆 CASO SOLUCIONADO!</h3>" +
+            "Sua acusação está correta! Elias, o mordomo, é o responsável pelo crime.<br><br>" +
+            "A chave reserva foi retirada sem assinatura, e Elias negou ter levado a bandeja ao escritório. " +
+            "As evidências e as contradições colocaram seu depoimento em dúvida.<br><br>" +
+            "<b>Motivo:</b> Augusto havia descoberto irregularidades financeiras ligadas aos registros da casa " +
+            "e pretendia confrontar Elias na manhã seguinte. Para impedir que o segredo fosse revelado, " +
+            "Elias preparou um plano e tentou esconder seus movimentos.<br><br>" +
+            "Você reuniu evidências suficientes e identificou a pessoa cujas declarações não combinavam com os registros.<br><br>" +
+            "<span class='tag'>RANK: DETETIVE LENDÁRIO 🔎</span>";
+        encerrado = true;
+    } else if (acusacao === "elias") {
+        resultado.innerHTML =
+            "<h3>🔎 Você suspeitou da pessoa certa!</h3>" +
+            "Elias é o culpado, mas escolha a pista do registro das chaves para apresentar a evidência mais forte.";
+    } else {
+        resultado.innerHTML =
+            "<h3>❌ Caso ainda não solucionado</h3>" +
+            "Sua hipótese não corresponde à solução deste caso. Isso não significa que a pessoa escolhida não tenha segredos. " +
+            "Volte às pistas, compare os horários e tente novamente.";
+    }
+}
+</script>
+</body>
+</html>
